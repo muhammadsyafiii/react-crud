@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { movieAPI } from "../services/api";
 import { useParams } from "react-router-dom";
-import { movieService } from "../services/api";
 
-export default function MovieDetail() {
+const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    (async () => {
+    const loadMovie = async () => {
       try {
-        const res = await movieService.get(id);
+        const res = await movieAPI.getById(id);
         setMovie(res.data);
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error(error);
       }
-    })();
+    };
+    loadMovie();
   }, [id]);
 
   if (!movie) return <p>Loading...</p>;
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>
-        {movie.title} ({movie.year})
-      </h2>
-      <img
-        src={movie.poster}
-        alt={movie.title}
-        style={{ maxWidth: 300, borderRadius: 6 }}
-      />
-      <p>{movie.description}</p>
+    <div>
+      <h2>{movie.title}</h2>
+      <p>Year: {movie.year}</p>
     </div>
   );
-}
+};
+
+export default MovieDetail;

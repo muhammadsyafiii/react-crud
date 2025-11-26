@@ -1,33 +1,35 @@
 import React, { useState } from "react";
-import { useMovie } from "../context/MovieProvider";
+import { useDispatch } from "react-redux";
+import { addData } from "../services/api";
+import { addMovie } from "../store/redux/movieSlice";
 
-const MovieForm = () => {
-  const { addMovie } = useMovie();
+const AddForm = () => {
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addMovie({ title, year });
-    setTitle("");
-    setYear("");
+    const newMovie = { title, year: Number(year) };
+    addData(newMovie).then((res) => {
+      dispatch(addMovie(res.data));
+      setTitle("");
+      setYear("");
+    });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Movie</h2>
       <input
-        type="text"
-        placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
         required
       />
       <input
-        type="number"
-        placeholder="Year"
         value={year}
         onChange={(e) => setYear(e.target.value)}
+        placeholder="Year"
         required
       />
       <button type="submit">Add Movie</button>
@@ -35,4 +37,4 @@ const MovieForm = () => {
   );
 };
 
-export default MovieForm;
+export default AddForm;

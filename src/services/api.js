@@ -1,18 +1,15 @@
 import axios from "axios";
 
-// Ganti <YOUR-MOCKAPI-URL> dengan endpoint MockAPI kamuovies";
-const MOVIES_API_BASE =
-  "https://642f7c1232a1e2a3b1f1abcd.mockapi.io/api/movies";
+const API_URL = "http://localhost:3001/movies";
 
-export const api = axios.create({
-  baseURL: MOVIES_API_BASE,
-  timeout: 8000,
+const api = axios.create({
+  baseURL: API_URL,
 });
 
-export const movieService = {
-  list: () => api.get("/"),
-  get: (id) => api.get(`/${id}`),
-  create: (payload) => api.post("/", payload),
-  update: (id, payload) => api.put(`/${id}`, payload),
+export const movieAPI = {
+  getAll: () => api.get("/"),
+  getById: (id) => api.get(`/${id}`),
+  create: (data) => api.post("/", data),
+  update: (id, data) => api.put(`/${id}`, data),
   remove: (id) => api.delete(`/${id}`),
 };

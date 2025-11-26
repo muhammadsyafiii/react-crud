@@ -1,18 +1,20 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import MovieDetail from "./pages/MovieDetail";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MovieProvider } from "./context/MovieProvider";
+import MovieList from "./components/MovieList";
+import MovieForm from "./components/MovieForm";
+import MovieDetail from "./pages/MovieDetail";
 
 function App() {
   return (
     <MovieProvider>
-      <BrowserRouter>
+      <Router>
+        <MovieForm />
+        <MovieList />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies/:id" element={<MovieDetail />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </MovieProvider>
   );
 }
